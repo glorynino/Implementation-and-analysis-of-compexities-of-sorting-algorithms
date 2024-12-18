@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "trierapide.h"
-
+#include "affichage.h"
 void echanger(int *a, int *b)
 {
     int temp = *a;
@@ -28,12 +28,12 @@ int partition(int tableau[], int debut, int fin,int *nbComp,int *nbPerm)
 }
 
 
-void triRapide(int tableau[], int debut, int fin ,int* nbComp , int* nbPerm )
+void triRapide(int tableau[], int debut, int fin ,int* nbComp , int* nbPerm ,int n)
 {    
     if (debut < fin)
     {
         int indicePivot = partition(tableau, debut, fin , nbComp , nbPerm);
-
+        afficher(tableau, n);
         // Tri des sous-tableaux
         triRapide(tableau, debut, indicePivot - 1, nbComp ,  nbPerm);
         triRapide(tableau, indicePivot + 1, fin, nbComp , nbPerm);

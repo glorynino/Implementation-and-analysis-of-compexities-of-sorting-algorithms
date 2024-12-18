@@ -1,9 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "tri_fusion.h"
-#include "insertionlist.h"
-#include "tri/lesfichierH/affichage.h"
-
 typedef struct Node {
     char word[100];
     struct Node* next;

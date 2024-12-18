@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
-#include <string.h>
+#include <stdio.h>  // Pour afficher les compteurs
 
 typedef struct Node
 {
@@ -8,37 +8,61 @@ typedef struct Node
     struct Node *next;
 } Node;
 
-void insertionSort(Node **head)
+void triParInsertion(Node **tete)
 {
-    if (*head == NULL || (*head)->next == NULL)
-        return;
+    if (*tete == NULL || (*tete)->next == NULL)
+        return; // Rien à trier si la liste est vide ou contient un seul élément
 
-    Node *sorted = NULL; // Liste triée
-    Node *current = *head;
+    Node *trie = NULL;  // Liste triée (initialement vide)
+    Node *actuel = *tete; // Liste originale (non triée)
+    
+    int comparisons = 0;  // Compteur de comparaisons
+    int permutations = 0; // Compteur de permutations
 
-    while (current != NULL)
+    while (actuel != NULL)
     {
-        Node *next = current->next;
+        Node *suivant = actuel->next; // Sauvegarder le noeud suivant
+        actuel->next = NULL;         // Déconnecter "actuel" de la liste originale
 
         // Insertion dans la liste triée
-        if (sorted == NULL || strcmp(current->word, sorted->word) < 0)
+        if (trie == NULL || strcmp(actuel->word, trie->word) < 0)
         {
-            current->next = sorted;
-            sorted = current;
+            // Comparaison
+            comparisons++;
+            // Insertion en tête de la liste triée
+            actuel->next = trie;
+            trie = actuel;
+            // Permutation
+            permutations++;
         }
         else
         {
-            Node *temp = sorted;
-            while (temp->next != NULL && strcmp(temp->next->word, current->word) < 0)
+            Node *temp = trie;
+            while (temp->next != NULL && strcmp(temp->next->word, actuel->word) < 0)
             {
+                // Comparaison dans la boucle while
+                comparisons++;
                 temp = temp->next;
             }
-            current->next = temp->next;
-            temp->next = current;
+
+            // Une dernière comparaison avant insertion
+            comparisons++;
+            
+            // Insérer "actuel" après le noeud trouvé
+            actuel->next = temp->next;
+            temp->next = actuel;
+            // Permutation
+            permutations++;
         }
 
-        current = next;
+        // Passer au noeud suivant
+        
+        actuel = suivant;
     }
 
-    *head = sorted;
+    *tete = trie; // Mettre à jour la tête pour pointer vers la liste triée
+
+    // Afficher les résultats
+    printf("Comparaisons : %d\n", comparisons);
+    printf("Permutations : %d\n", permutations);
 }

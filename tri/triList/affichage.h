@@ -8,6 +8,7 @@ typedef struct list {
 } list;
 
 // Déclaration de la fonction afficherlist qui attend un argument de type list*
+void afficher(int *T, int n);
 void afficherlist(list *L);
 
 #endif

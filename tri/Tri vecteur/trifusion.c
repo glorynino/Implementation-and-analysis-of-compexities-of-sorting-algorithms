@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include "tri_fusion.h"
 
-void fusion(int tableau[], int gauche, int milieu, int droite) {
+
+void fusion(int tableau[], int gauche, int milieu, int droite, int*compteurComparaisons , int*compteurPermutations) {
     int n1 = milieu - gauche + 1;
     int n2 = droite - milieu;
-
+    
     int* gaucheArr = (int*)malloc(n1 * sizeof(int));
     int* droiteArr = (int*)malloc(n2 * sizeof(int));
 
@@ -14,22 +15,37 @@ void fusion(int tableau[], int gauche, int milieu, int droite) {
 
     int i = 0, j = 0, k = gauche;
 
+    // Fusion des deux sous-tableaux
     while (i < n1 && j < n2) {
+        compteurComparaisons++;  // Incrémente à chaque comparaison
         if (gaucheArr[i] <= droiteArr[j]) {
             tableau[k++] = gaucheArr[i++];
+            (*compteurPermutations)++;  // Incrémente à chaque permutation
         } else {
             tableau[k++] = droiteArr[j++];
+            (*compteurPermutations)++;  // Incrémente à chaque permutation
         }
     }
 
-    while (i < n1) tableau[k++] = gaucheArr[i++];
-    while (j < n2) tableau[k++] = droiteArr[j++];
+    // Si des éléments restent dans le tableau de gauche
+    while (i < n1) {
+        tableau[k++] = gaucheArr[i++];
+        (*compteurPermutations)++;  // Incrémente à chaque permutation
+    }
+
+    // Si des éléments restent dans le tableau de droite
+    while (j < n2) {
+        tableau[k++] = droiteArr[j++];
+        (*compteurPermutations)++;  // Incrémente à chaque permutation
+    }
 
     free(gaucheArr);
     free(droiteArr);
 }
 
 void triFusion(int tableau[], int gauche, int droite) {
+    int compteurComparaisons = 0;
+    int compteurPermutations = 0;
     if (gauche < droite) {
         int milieu = gauche + (droite - gauche) / 2;
 
@@ -38,4 +54,9 @@ void triFusion(int tableau[], int gauche, int droite) {
 
         fusion(tableau, gauche, milieu, droite);
     }
+}
+
+void afficherCompteurs() {
+    printf("Nombre de comparaisons : %d\n", compteurComparaisons);
+    printf("Nombre de permutations : %d\n", compteurPermutations);
 }

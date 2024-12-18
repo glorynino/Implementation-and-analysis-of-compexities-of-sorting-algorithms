@@ -3,7 +3,7 @@
 #include <string.h>
 #include "affichage.h"
 
-void bullelist(list *L, int *nbComp, int *nbPerm)
+void bullelist(list L, )
 {
     char swap[100];
     list *p;
@@ -14,16 +14,16 @@ void bullelist(list *L, int *nbComp, int *nbPerm)
         return;
     }
 
-    *nbComp = 0;
-    *nbPerm = 0;
+    int nbComp = 0;
+     int  nbPerm = 0;
     int verification = 1;
     while (verification)
     {    p = L;
-    
+         nbComp++;
         verification = 0;
         while (p->svt!= NULL)
         {   p2 = p->svt;
-            (*nbComp)++;
+            nbComp++;
             if (strcmp(p->mot, p2->mot) > 0)
             {
                 verification = 1;
@@ -31,9 +31,12 @@ void bullelist(list *L, int *nbComp, int *nbPerm)
                 strcpy(p->mot, p2->mot);
                 strcpy(p2->mot, swap);
                 afficherlist(L);
-                (*nbPerm)++;
+                nbPerm++;
             }
             p = p->svt;
         }
     }
+   printf("le nombre de comparaison:%d",nbComp);
+   printf("le nombre de permutation:%d",nbPerm);
+
 }
