@@ -4,6 +4,17 @@ typedef struct Node {
     char word[100];
     struct Node* next;
 } Node;
+
+
+
+
+
+
+
+
+
+
+
 // TRI PEINGNE
 void peingne(int *T, int taille)
 {
@@ -40,7 +51,7 @@ void afficher(int *T, int n)
         printf("Élément %d : %d\n", (int)i, T[i]);
     }
 }
-
+//tri rapide
 // Fonction pour échanger deux éléments
 void echanger(int *a, int *b)
 {
@@ -85,7 +96,7 @@ void triRapide(int tableau[], int debut, int fin, int *nbComp, int *nbPerm, int 
         triRapide(tableau, indicePivot + 1, fin, nbComp, nbPerm, n);
     }
 }
-
+//fin du tri rapide 
 int main()
 {
     int *T;

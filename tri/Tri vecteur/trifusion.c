@@ -14,7 +14,6 @@ void fusion(int tableau[], int gauche, int milieu, int droite, int*compteurCompa
     for (int j = 0; j < n2; j++) droiteArr[j] = tableau[milieu + 1 + j];
 
     int i = 0, j = 0, k = gauche;
-
     // Fusion des deux sous-tableaux
     while (i < n1 && j < n2) {
         compteurComparaisons++;  // Incrémente à chaque comparaison
