@@ -35,7 +35,7 @@ void triRapide(int tableau[], int debut, int fin ,int* nbComp , int* nbPerm ,int
         int indicePivot = partition(tableau, debut, fin , nbComp , nbPerm);
         afficher(tableau, n);
         // Tri des sous-tableaux
-        triRapide(tableau, debut, indicePivot - 1, nbComp ,  nbPerm);
-        triRapide(tableau, indicePivot + 1, fin, nbComp , nbPerm);
+        triRapide(tableau, debut, indicePivot - 1, nbComp ,  nbPerm,n);
+        triRapide(tableau, indicePivot + 1, fin, nbComp , nbPerm,n);
     }
 }
