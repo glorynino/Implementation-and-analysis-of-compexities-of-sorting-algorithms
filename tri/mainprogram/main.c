@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> 
-typedef struct list {
+#include <string.h>
+typedef struct list
+{
     char mot[100];
     struct list *svt;
 } list;
@@ -14,23 +15,23 @@ void afficher(int *T, int n)
     }
 }
 // Fonction d'affichage pour une liste chaînée de chaînes de caractères
-void afficherlist(list* L)
+void afficherlist(list *L)
 {
-    list *p = L;  // Utilisation de p pour parcourir la liste chaînée
-    int i = 1;    // Initialisation de l'index pour l'affichage des éléments
+    list *p = L; // Utilisation de p pour parcourir la liste chaînée
+    int i = 1;   // Initialisation de l'index pour l'affichage des éléments
 
     printf("---------- Après une itération -----------\n");
-    while (p != NULL)  // Parcours de la liste tant qu'on n'est pas à la fin
+    while (p != NULL) // Parcours de la liste tant qu'on n'est pas à la fin
     {
         printf("Élément numéro %d : %s\n", i, p->mot); // Affiche l'élément et son contenu
-        p = p->svt;  // Passe au prochain élément de la liste
-        i++;          // Incrémente le compteur
+        p = p->svt;                                    // Passe au prochain élément de la liste
+        i++;                                           // Incrémente le compteur
     }
 }
-// tri avec les list 
+// tri avec les list
 // tri par bulle
 
-void bullelist(list* L)
+void bullelist(list *L)
 {
     char swap[100];
     list *p;
@@ -42,14 +43,16 @@ void bullelist(list* L)
     }
 
     int nbComp = 0;
-     int  nbPerm = 0;
+    int nbPerm = 0;
     int verification = 1;
     while (verification)
-    {    p = L;
-         nbComp++;
+    {
+        p = L;
+        nbComp++;
         verification = 0;
-        while (p->svt!= NULL)
-        {   p2 = p->svt;
+        while (p->svt != NULL)
+        {
+            p2 = p->svt;
             nbComp++;
             if (strcmp(p->mot, p2->mot) > 0)
             {
@@ -63,12 +66,11 @@ void bullelist(list* L)
             p = p->svt;
         }
     }
-   printf("le nombre de comparaison:%d",nbComp);
-   printf("le nombre de permutation:%d",nbPerm);
-
+    printf("le nombre de comparaison:%d", nbComp);
+    printf("le nombre de permutation:%d", nbPerm);
 }
 // tri par insertion
-void insertionlist(list* L)
+void insertionlist(list *L)
 {
     list *p = L;
     list *p2;
@@ -93,13 +95,15 @@ void insertionlist(list* L)
         }
         p = p->svt;
     }
-    printf("le nombre de comparaison:%d",nbComp);
-    printf("le nombre de permutation:%d",nbPerm);
-}   
-//fin des tri de liste 
-list* creerNoeud(const char* mot) {
-    list* nouveau = (list*)malloc(sizeof(list));
-    if (nouveau == NULL) {
+    printf("le nombre de comparaison:%d", nbComp);
+    printf("le nombre de permutation:%d", nbPerm);
+}
+// fin des tri de liste
+list *creerNoeud(const char *mot)
+{
+    list *nouveau = (list *)malloc(sizeof(list));
+    if (nouveau == NULL)
+    {
         printf("Erreur d'allocation mémoire !\n");
         exit(1);
     }
@@ -109,13 +113,18 @@ list* creerNoeud(const char* mot) {
 }
 
 // Fonction pour ajouter un nœud à la fin de la liste
-void ajouterFin(list** L, const char* mot) {
-    list* nouveau = creerNoeud(mot);
-    if (*L == NULL) {
+void ajouterFin(list **L, const char *mot)
+{
+    list *nouveau = creerNoeud(mot);
+    if (*L == NULL)
+    {
         *L = nouveau; // La liste est vide, le nouveau devient le premier élément
-    } else {
-        list* temp = *L;
-        while (temp->svt != NULL) {
+    }
+    else
+    {
+        list *temp = *L;
+        while (temp->svt != NULL)
+        {
             temp = temp->svt;
         }
         temp->svt = nouveau;
@@ -123,9 +132,11 @@ void ajouterFin(list** L, const char* mot) {
 }
 
 // Fonction pour libérer la mémoire de la liste
-void libererListe(list* L) {
-    list* temp;
-    while (L != NULL) {
+void libererListe(list *L)
+{
+    list *temp;
+    while (L != NULL)
+    {
         temp = L;
         L = L->svt;
         free(temp);
@@ -133,24 +144,11 @@ void libererListe(list* L) {
     printf("Mémoire libérée.\n");
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// tri de vecteur 
+// tri de vecteur
 // TRI PEINGNE
 void peingne(int *T, int taille)
-{  int nbComp = 0;
+{
+    int nbComp = 0;
     int nbPerm = 0;
     int gap = taille;
     gap = (int)(gap / 1.3);
@@ -174,13 +172,13 @@ void peingne(int *T, int taille)
         }
         gap = (int)(gap / 1.3);
     }
-    printf("le nombre de permutation : %d",nbPerm);
-    printf("le nombre de comparaison : %d",nbComp);
+    printf("le nombre de permutation : %d", nbPerm);
+    printf("le nombre de comparaison : %d", nbComp);
 }
 // FIN DU TRI PEINGNE
 
-//tri rapide
-// Fonction pour échanger deux éléments
+// tri rapide
+//  Fonction pour échanger deux éléments
 void echanger(int *a, int *b)
 {
     int temp = *a;
@@ -224,53 +222,64 @@ void triRapide(int tableau[], int debut, int fin, int *nbComp, int *nbPerm, int 
         triRapide(tableau, indicePivot + 1, fin, nbComp, nbPerm, n);
     }
 }
-//fin du tri rapide */ 
-//tri fusion    
+// fin du tri rapide */
+// tri fusion
 int compteurComparaisons = 0;
 int compteurPermutations = 0;
 
-void fusion(int tableau[], int gauche, int milieu, int droite) {
+void fusion(int tableau[], int gauche, int milieu, int droite)
+{
     int n1 = milieu - gauche + 1;
     int n2 = droite - milieu;
-    
-    int* gaucheArr = (int*)malloc(n1 * sizeof(int));
-    int* droiteArr = (int*)malloc(n2 * sizeof(int));
 
-    for (int i = 0; i < n1; i++) gaucheArr[i] = tableau[gauche + i];
-    for (int j = 0; j < n2; j++) droiteArr[j] = tableau[milieu + 1 + j];
+    int *gaucheArr = (int *)malloc(n1 * sizeof(int));
+    int *droiteArr = (int *)malloc(n2 * sizeof(int));
+
+    for (int i = 0; i < n1; i++)
+        gaucheArr[i] = tableau[gauche + i];
+    for (int j = 0; j < n2; j++)
+        droiteArr[j] = tableau[milieu + 1 + j];
 
     int i = 0, j = 0, k = gauche;
 
     // Fusion des deux sous-tableaux
-    while (i < n1 && j < n2) {
-        compteurComparaisons++;  // Incrémente à chaque comparaison
-        if (gaucheArr[i] <= droiteArr[j]) {
+    while (i < n1 && j < n2)
+    {
+        compteurComparaisons++; // Incrémente à chaque comparaison
+        if (gaucheArr[i] <= droiteArr[j])
+        {
             tableau[k++] = gaucheArr[i++];
-            compteurPermutations++;  // Incrémente à chaque permutation
-        } else {
+            compteurPermutations++; // Incrémente à chaque permutation
+        }
+        else
+        {
             tableau[k++] = droiteArr[j++];
-            compteurPermutations++;  // Incrémente à chaque permutation
+            compteurPermutations++; // Incrémente à chaque permutation
         }
     }
 
     // Si des éléments restent dans le tableau de gauche
-    while (i < n1) {
+    while (i < n1)
+    {
         tableau[k++] = gaucheArr[i++];
-        compteurPermutations++;  // Incrémente à chaque permutation
+        compteurPermutations++; // Incrémente à chaque permutation
     }
 
     // Si des éléments restent dans le tableau de droite
-    while (j < n2) {
+    while (j < n2)
+    {
         tableau[k++] = droiteArr[j++];
-        compteurPermutations++;  // Incrémente à chaque permutation
+        compteurPermutations++; // Incrémente à chaque permutation
     }
 
     free(gaucheArr);
     free(droiteArr);
 }
 
-void triFusion(int tableau[], int gauche, int droite) {
-    if (gauche < droite) {
+void triFusion(int tableau[], int gauche, int droite)
+{
+    if (gauche < droite)
+    {
         int milieu = gauche + (droite - gauche) / 2;
 
         triFusion(tableau, gauche, milieu);
@@ -279,20 +288,22 @@ void triFusion(int tableau[], int gauche, int droite) {
         fusion(tableau, gauche, milieu, droite);
     }
 }
-//fin du tri fusion 
+// fin du tri fusion
 
-void afficherCompteurs() {
+void afficherCompteurs()
+{
     printf("Nombre de comparaisons : %d\n", compteurComparaisons);
     printf("Nombre de permutations : %d\n", compteurPermutations);
 }
 
-//fin du tri de vecteur
+// fin du tri de vecteur
 int main()
 {
     int *T;
     int n;
     int i;
-
+    int ncmp = 0;
+    int nperm = 0;
     printf("cher utilisateur tu choisis de pratiquer les operation de tri su qu'elle structure  \n");
     printf("1- vecteur \n");
     printf("2- liste \n");
@@ -304,7 +315,7 @@ int main()
         printf("vous avez choisi de pratiquer les operation de tri sur un vecteur \n");
         printf("Combien d'éléments voulez-vous ajouter au tableau ?\n");
         scanf("%d", &n);
-        T = (int*)malloc(n * sizeof(int));
+        T = (int *)malloc(n * sizeof(int));
         if (T == NULL)
         {
             printf("Erreur d'allocation mémoire !\n");
@@ -315,25 +326,40 @@ int main()
             printf("Entrez l'élément numéro %d : ", i + 1);
             scanf("%d", &T[i]);
         }
-        printf("1- Tri Peingne\n");
-        peingne(T,n);
-        printf("2- Tri Rapide\n");
-        triRapide(T,0,n-1,&compteurComparaisons,&compteurPermutations,n);
-        printf("3- Tri Fusion\n");
-        triFusion(T,0,n-1);
+        printf("qu'elle methode de tri voulez vous utiliser  1 pour peingne , 2 pour rapide , 3 pour fusion \n");
+        scanf("%d", &i);
 
+        // le choix des tr
+        switch (i)
+        {
+        case 1:
+            printf("1- Tri Peingne\n");
+            break;
+        case 2:
+            printf("2- Tri rapide\n");
+            triRapide(T, 0, n - 1, &ncmp, &nperm, n);
+            printf("le nombre de permutation : %d\n", nperm);
+            printf("le nombre de comparaison : %d\n", ncmp);
+            break;
+        case 3:
+            printf("3- Tri Fusion\n");
+            triFusion(T, 0, n - 1);
+            afficherCompteurs();
+            break;
 
+        default:
+            print("choisis un numero entre 1 et 6 ! ");
+            break;
+        }
 
-
-        
-       free(T);
+        free(T);
         break;
     case 2:
-     printf("vous avez choisi de pratiquer les operation de tri sur une liste \n");
+        printf("vous avez choisi de pratiquer les operation de tri sur une liste \n");
 
         printf("Combien de mots voulez-vous ajouter à la liste ?\n");
         scanf("%d", &n);
-        list* maListe = NULL;
+        list *maListe = NULL;
         for (int i = 0; i < n; i++)
         {
             char mot[100];
@@ -341,36 +367,33 @@ int main()
             scanf("%s", mot);
             ajouterFin(&maListe, mot);
         }
-        printf("1- Tri par bulle\n");
-        bullelist(maListe);
-        printf("2- Tri par insertion\n");
-        insertionlist(maListe);
+        printf("qu'elle methode de tri voulez vous utiliser  1 pour bulle , 2 pour insertion \n");
+        scanf("%d", &i);
+        switch (i)
+        {
+        case 1:
+            printf("1- Tri par bulle\n");
+            bullelist(maListe);
+            break;
+        case 2:
+            printf("2- Tri par insertion\n");
+            insertionlist(maListe);
 
-       libererListe(maListe); 
-        break;
+        default:
+            printf("choisis un numero entre 1 et 2 !");
+            break;
+        }
+
+        libererListe(maListe);
     case 3:
-    printf("vous avez choisi de pratiquer les operation de tri sur une matrice \n");
+        printf("vous avez choisi de pratiquer les operation de tri sur une matrice \n");
 
-
-
-
-
-
-
-
-        break; 
+        break;
     default:
 
-    printf("ta pas choisis un nombre demander ");
+        printf("ta pas choisis un nombre demander ");
         break;
     }
 
-
-   
-
- 
     return 0;
 }
-
-
-
