@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include "tri_fusion.h"
 
+// Définition des compteurs en global
+int compteurComparaisons = 0;
+int compteurPermutations = 0;
 
-void fusion(int tableau[], int gauche, int milieu, int droite, int*compteurComparaisons , int*compteurPermutations) {
+void fusion(int tableau[], int gauche, int milieu, int droite) {
     int n1 = milieu - gauche + 1;
     int n2 = droite - milieu;
     
@@ -14,28 +17,29 @@ void fusion(int tableau[], int gauche, int milieu, int droite, int*compteurCompa
     for (int j = 0; j < n2; j++) droiteArr[j] = tableau[milieu + 1 + j];
 
     int i = 0, j = 0, k = gauche;
+
     // Fusion des deux sous-tableaux
     while (i < n1 && j < n2) {
         compteurComparaisons++;  // Incrémente à chaque comparaison
         if (gaucheArr[i] <= droiteArr[j]) {
             tableau[k++] = gaucheArr[i++];
-            (*compteurPermutations)++;  // Incrémente à chaque permutation
+            compteurPermutations++;  // Incrémente à chaque permutation
         } else {
             tableau[k++] = droiteArr[j++];
-            (*compteurPermutations)++;  // Incrémente à chaque permutation
+            compteurPermutations++;  // Incrémente à chaque permutation
         }
     }
 
     // Si des éléments restent dans le tableau de gauche
     while (i < n1) {
         tableau[k++] = gaucheArr[i++];
-        (*compteurPermutations)++;  // Incrémente à chaque permutation
+        compteurPermutations++;  // Incrémente à chaque permutation
     }
 
     // Si des éléments restent dans le tableau de droite
     while (j < n2) {
         tableau[k++] = droiteArr[j++];
-        (*compteurPermutations)++;  // Incrémente à chaque permutation
+        compteurPermutations++;  // Incrémente à chaque permutation
     }
 
     free(gaucheArr);
@@ -43,8 +47,6 @@ void fusion(int tableau[], int gauche, int milieu, int droite, int*compteurCompa
 }
 
 void triFusion(int tableau[], int gauche, int droite) {
-    int compteurComparaisons = 0;
-    int compteurPermutations = 0;
     if (gauche < droite) {
         int milieu = gauche + (droite - gauche) / 2;
 
