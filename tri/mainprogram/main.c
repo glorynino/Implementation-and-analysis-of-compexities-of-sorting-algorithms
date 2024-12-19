@@ -1,10 +1,100 @@
 #include <stdio.h>
 #include <stdlib.h>
-typedef struct Node {
-    char word[100];
-    struct Node* next;
-} Node;
+#include <string.h> 
+typedef struct list {
+    char mot[100];
+    struct list *svt;
+} list;
+void afficher(int *T, int n)
+{
+    printf("---------- Après une itération -----------\n");
+    for (size_t i = 0; i < n; i++)
+    {
+        printf("Élément %d : %d\n", (int)i, T[i]);
+    }
+}
+// Fonction d'affichage pour une liste chaînée de chaînes de caractères
+void afficherlist(list* L)
+{
+    list *p = L;  // Utilisation de p pour parcourir la liste chaînée
+    int i = 1;    // Initialisation de l'index pour l'affichage des éléments
 
+    printf("---------- Après une itération -----------\n");
+    while (p != NULL)  // Parcours de la liste tant qu'on n'est pas à la fin
+    {
+        printf("Élément numéro %d : %s\n", i, p->mot); // Affiche l'élément et son contenu
+        p = p->svt;  // Passe au prochain élément de la liste
+        i++;          // Incrémente le compteur
+    }
+}
+// tri avec les list 
+// tri par bulle
+void bullelist(list* L)
+{
+    char swap[100];
+    list *p;
+    list *p2;
+    if (L == NULL)
+    {
+        printf("la list est vide");
+        return;
+    }
+
+    int nbComp = 0;
+     int  nbPerm = 0;
+    int verification = 1;
+    while (verification)
+    {    p = L;
+         nbComp++;
+        verification = 0;
+        while (p->svt!= NULL)
+        {   p2 = p->svt;
+            nbComp++;
+            if (strcmp(p->mot, p2->mot) > 0)
+            {
+                verification = 1;
+                strcpy(swap, p->mot);
+                strcpy(p->mot, p2->mot);
+                strcpy(p2->mot, swap);
+                afficherlist(L);
+                nbPerm++;
+            }
+            p = p->svt;
+        }
+    }
+   printf("le nombre de comparaison:%d",nbComp);
+   printf("le nombre de permutation:%d",nbPerm);
+
+}
+// tri par insertion
+void insertionlist(list* L)
+{
+    list *p = L;
+    list *p2;
+    char swap[100];
+    int nbComp = 0;
+    int nbPerm = 0;
+    while (p != NULL)
+    {
+        p2 = p;
+        while (p2->svt != NULL)
+        {
+            nbComp++;
+            if (strcmp(p->mot, p2->svt->mot) > 0)
+            {
+                strcpy(swap, p->mot);
+                strcpy(p->mot, p2->svt->mot);
+                strcpy(p2->svt->mot, swap);
+                afficherlist(L);
+                nbPerm++;
+            }
+            p2 = p2->svt;
+        }
+        p = p->svt;
+    }
+    printf("le nombre de comparaison:%d",nbComp);
+    printf("le nombre de permutation:%d",nbPerm);
+}   
 
 
 
@@ -42,15 +132,7 @@ void peingne(int *T, int taille)
     }
 }
 // FIN DU TRI PEINGNE
-//la fonction qui suit est utiliser pour afficher l'etat du vecteur a chaque etiration 
-void afficher(int *T, int n)
-{
-    printf("---------- Après une itération -----------\n");
-    for (size_t i = 0; i < n; i++)
-    {
-        printf("Élément %d : %d\n", (int)i, T[i]);
-    }
-}
+
 //tri rapide
 // Fonction pour échanger deux éléments
 void echanger(int *a, int *b)
@@ -96,19 +178,63 @@ void triRapide(int tableau[], int debut, int fin, int *nbComp, int *nbPerm, int 
         triRapide(tableau, indicePivot + 1, fin, nbComp, nbPerm, n);
     }
 }
-//fin du tri rapide 
+//fin du tri rapide */ 
+list* creerNoeud(const char* mot) {
+    list* nouveau = (list*)malloc(sizeof(list));
+    if (nouveau == NULL) {
+        printf("Erreur d'allocation mémoire !\n");
+        exit(1);
+    }
+    strcpy(nouveau->mot, mot);
+    nouveau->svt = NULL;
+    return nouveau;
+}
+
+// Fonction pour ajouter un nœud à la fin de la liste
+void ajouterFin(list** L, const char* mot) {
+    list* nouveau = creerNoeud(mot);
+    if (*L == NULL) {
+        *L = nouveau; // La liste est vide, le nouveau devient le premier élément
+    } else {
+        list* temp = *L;
+        while (temp->svt != NULL) {
+            temp = temp->svt;
+        }
+        temp->svt = nouveau;
+    }
+}
+
+// Fonction pour libérer la mémoire de la liste
+void libererListe(list* L) {
+    list* temp;
+    while (L != NULL) {
+        temp = L;
+        L = L->svt;
+        free(temp);
+    }
+    printf("Mémoire libérée.\n");
+}
 int main()
 {
     int *T;
     int n;
-
     printf("Nombre d'éléments : \n");
     do
     {
         scanf("%d", &n);
     } while (n < 0);
 
-    T = malloc(n * sizeof(int));
+     list* maListe = NULL;
+
+    // Ajout d'éléments à la liste
+    ajouterFin(&maListe, "B");
+    ajouterFin(&maListe, "Z");
+    ajouterFin(&maListe, "J");
+    ajouterFin(&maListe, "A");
+
+   insertionlist(maListe);
+
+    /* T = malloc(n * sizeof(int));
     if (T == NULL)
     {
         printf("Erreur d'allocation mémoire.\n");
@@ -134,6 +260,8 @@ int main()
     printf("Nombre de permutations : %d\n", nbPerm);
 
     free(T); // Libérer la mémoire allouée
+    */
+   libererListe(maListe);   
     return 0;
 }
 
