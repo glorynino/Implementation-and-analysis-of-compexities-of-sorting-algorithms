@@ -29,6 +29,7 @@ void afficherlist(list* L)
 }
 // tri avec les list 
 // tri par bulle
+
 void bullelist(list* L)
 {
     char swap[100];
@@ -95,6 +96,42 @@ void insertionlist(list* L)
     printf("le nombre de comparaison:%d",nbComp);
     printf("le nombre de permutation:%d",nbPerm);
 }   
+//fin des tri de liste 
+list* creerNoeud(const char* mot) {
+    list* nouveau = (list*)malloc(sizeof(list));
+    if (nouveau == NULL) {
+        printf("Erreur d'allocation mémoire !\n");
+        exit(1);
+    }
+    strcpy(nouveau->mot, mot);
+    nouveau->svt = NULL;
+    return nouveau;
+}
+
+// Fonction pour ajouter un nœud à la fin de la liste
+void ajouterFin(list** L, const char* mot) {
+    list* nouveau = creerNoeud(mot);
+    if (*L == NULL) {
+        *L = nouveau; // La liste est vide, le nouveau devient le premier élément
+    } else {
+        list* temp = *L;
+        while (temp->svt != NULL) {
+            temp = temp->svt;
+        }
+        temp->svt = nouveau;
+    }
+}
+
+// Fonction pour libérer la mémoire de la liste
+void libererListe(list* L) {
+    list* temp;
+    while (L != NULL) {
+        temp = L;
+        L = L->svt;
+        free(temp);
+    }
+    printf("Mémoire libérée.\n");
+}
 
 
 
@@ -105,9 +142,16 @@ void insertionlist(list* L)
 
 
 
+
+
+
+
+
+// tri de vecteur 
 // TRI PEINGNE
 void peingne(int *T, int taille)
-{
+{  int nbComp = 0;
+    int nbPerm = 0;
     int gap = taille;
     gap = (int)(gap / 1.3);
     if (gap < 1)
@@ -130,6 +174,8 @@ void peingne(int *T, int taille)
         }
         gap = (int)(gap / 1.3);
     }
+    printf("le nombre de permutation : %d",nbPerm);
+    printf("le nombre de comparaison : %d",nbComp);
 }
 // FIN DU TRI PEINGNE
 
@@ -179,99 +225,152 @@ void triRapide(int tableau[], int debut, int fin, int *nbComp, int *nbPerm, int 
     }
 }
 //fin du tri rapide */ 
-list* creerNoeud(const char* mot) {
-    list* nouveau = (list*)malloc(sizeof(list));
-    if (nouveau == NULL) {
-        printf("Erreur d'allocation mémoire !\n");
-        exit(1);
-    }
-    strcpy(nouveau->mot, mot);
-    nouveau->svt = NULL;
-    return nouveau;
-}
+//tri fusion    
+int compteurComparaisons = 0;
+int compteurPermutations = 0;
 
-// Fonction pour ajouter un nœud à la fin de la liste
-void ajouterFin(list** L, const char* mot) {
-    list* nouveau = creerNoeud(mot);
-    if (*L == NULL) {
-        *L = nouveau; // La liste est vide, le nouveau devient le premier élément
-    } else {
-        list* temp = *L;
-        while (temp->svt != NULL) {
-            temp = temp->svt;
+void fusion(int tableau[], int gauche, int milieu, int droite) {
+    int n1 = milieu - gauche + 1;
+    int n2 = droite - milieu;
+    
+    int* gaucheArr = (int*)malloc(n1 * sizeof(int));
+    int* droiteArr = (int*)malloc(n2 * sizeof(int));
+
+    for (int i = 0; i < n1; i++) gaucheArr[i] = tableau[gauche + i];
+    for (int j = 0; j < n2; j++) droiteArr[j] = tableau[milieu + 1 + j];
+
+    int i = 0, j = 0, k = gauche;
+
+    // Fusion des deux sous-tableaux
+    while (i < n1 && j < n2) {
+        compteurComparaisons++;  // Incrémente à chaque comparaison
+        if (gaucheArr[i] <= droiteArr[j]) {
+            tableau[k++] = gaucheArr[i++];
+            compteurPermutations++;  // Incrémente à chaque permutation
+        } else {
+            tableau[k++] = droiteArr[j++];
+            compteurPermutations++;  // Incrémente à chaque permutation
         }
-        temp->svt = nouveau;
     }
+
+    // Si des éléments restent dans le tableau de gauche
+    while (i < n1) {
+        tableau[k++] = gaucheArr[i++];
+        compteurPermutations++;  // Incrémente à chaque permutation
+    }
+
+    // Si des éléments restent dans le tableau de droite
+    while (j < n2) {
+        tableau[k++] = droiteArr[j++];
+        compteurPermutations++;  // Incrémente à chaque permutation
+    }
+
+    free(gaucheArr);
+    free(droiteArr);
 }
 
-// Fonction pour libérer la mémoire de la liste
-void libererListe(list* L) {
-    list* temp;
-    while (L != NULL) {
-        temp = L;
-        L = L->svt;
-        free(temp);
+void triFusion(int tableau[], int gauche, int droite) {
+    if (gauche < droite) {
+        int milieu = gauche + (droite - gauche) / 2;
+
+        triFusion(tableau, gauche, milieu);
+        triFusion(tableau, milieu + 1, droite);
+
+        fusion(tableau, gauche, milieu, droite);
     }
-    printf("Mémoire libérée.\n");
 }
+//fin du tri fusion 
+
+void afficherCompteurs() {
+    printf("Nombre de comparaisons : %d\n", compteurComparaisons);
+    printf("Nombre de permutations : %d\n", compteurPermutations);
+}
+
+//fin du tri de vecteur
 int main()
 {
     int *T;
     int n;
-    printf("Nombre d'éléments : \n");
-    do
+    int i;
+
+    printf("cher utilisateur tu choisis de pratiquer les operation de tri su qu'elle structure  \n");
+    printf("1- vecteur \n");
+    printf("2- liste \n");
+    printf("3- matrice \n");
+    scanf("%d", &i);
+    switch (i)
     {
+    case 1:
+        printf("vous avez choisi de pratiquer les operation de tri sur un vecteur \n");
+        printf("Combien d'éléments voulez-vous ajouter au tableau ?\n");
         scanf("%d", &n);
-    } while (n < 0);
+        T = (int*)malloc(n * sizeof(int));
+        if (T == NULL)
+        {
+            printf("Erreur d'allocation mémoire !\n");
+            exit(1);
+        }
+        for (int i = 0; i < n; i++)
+        {
+            printf("Entrez l'élément numéro %d : ", i + 1);
+            scanf("%d", &T[i]);
+        }
+        printf("1- Tri Peingne\n");
+        peingne(T,n);
+        printf("2- Tri Rapide\n");
+        triRapide(T,0,n-1,&compteurComparaisons,&compteurPermutations,n);
+        printf("3- Tri Fusion\n");
+        triFusion(T,0,n-1);
 
-     list* maListe = NULL;
 
-    // Ajout d'éléments à la liste
-    ajouterFin(&maListe, "B");
-    ajouterFin(&maListe, "Z");
-    ajouterFin(&maListe, "J");
-    ajouterFin(&maListe, "A");
 
-   insertionlist(maListe);
 
-    /* T = malloc(n * sizeof(int));
-    if (T == NULL)
-    {
-        printf("Erreur d'allocation mémoire.\n");
-        return 1;
+        
+       free(T);
+        break;
+    case 2:
+     printf("vous avez choisi de pratiquer les operation de tri sur une liste \n");
+
+        printf("Combien de mots voulez-vous ajouter à la liste ?\n");
+        scanf("%d", &n);
+        list* maListe = NULL;
+        for (int i = 0; i < n; i++)
+        {
+            char mot[100];
+            printf("Entrez le mot numéro %d : ", i + 1);
+            scanf("%s", mot);
+            ajouterFin(&maListe, mot);
+        }
+        printf("1- Tri par bulle\n");
+        bullelist(maListe);
+        printf("2- Tri par insertion\n");
+        insertionlist(maListe);
+
+       libererListe(maListe); 
+        break;
+    case 3:
+    printf("vous avez choisi de pratiquer les operation de tri sur une matrice \n");
+
+
+
+
+
+
+
+
+        break; 
+    default:
+
+    printf("ta pas choisis un nombre demander ");
+        break;
     }
 
-    for (size_t i = 0; i < n; i++)
-    {
-        printf("Élément %d : \n", (int)i);
-        scanf("%d", &T[i]);
-    }
 
-    int nbComp = 0; // Compteur de comparaisons
-    int nbPerm = 0; // Compteur de permutations
+   
 
-    printf("----------- Tri rapide ---------------\n");
-    triRapide(T, 0, n - 1, &nbComp, &nbPerm, n);
-
-    printf("----------- Résultat final ---------------\n");
-    afficher(T, n);
-
-    printf("Nombre de comparaisons : %d\n", nbComp);
-    printf("Nombre de permutations : %d\n", nbPerm);
-
-    free(T); // Libérer la mémoire allouée
-    */
-   libererListe(maListe);   
+ 
     return 0;
 }
 
 
 
-/*
-    printf("-----exemple de tri de peigne ------\n");
-    peingne(T, n);
-    afficher(T, n);
-
-    printf("-------exemple de tri de fusion ------");
-    free(T);
-*/

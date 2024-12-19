@@ -3,7 +3,7 @@
 #include <string.h>
 #include "affichage.h"
 
-void bullelist(list L)
+void bullelist(list* L)
 {
     char swap[100];
     list *p;
