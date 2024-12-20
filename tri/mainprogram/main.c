@@ -22,10 +22,10 @@ void afficherlist(list* L)
     list* p = L;  // Utilisation de p pour parcourir la liste chaînée
     int i = 1;    // Initialisation de l'index pour l'affichage des éléments
 
-    printf("---------- Après une iteration -----------\n");
+    printf("---------- Apres une iteration -----------\n");
     while (p != NULL)  // Parcours de la liste tant qu'on n'est pas à la fin
     {
-        printf("Element numéro %d : %s\n", i, p->mot); // Affiche l'élément et son contenu
+        printf("Element numero %d : %s\n", i, p->mot); // Affiche l'élément et son contenu
         p = p->svt;  // Passe au prochain élément de la liste
         i++;          // Incrémente le compteur
     }
