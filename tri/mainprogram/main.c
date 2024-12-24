@@ -1,6 +1,4 @@
-//
-// Created by yacai on 20/12/2024.
-//
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,6 +6,11 @@ typedef struct list {
     char mot[100];
     struct list* svt;
 } list;
+void generate_vecteur(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        arr[i] = rand() % 1000;  // Valeurs entre 0 et 999
+    }
+}
 void afficher(int* T, int n)
 {
     printf("---------- Apres une iteration -----------\n");
@@ -450,11 +453,7 @@ int main()
             printf("Erreur d'allocation memoire !\n");
             exit(1);
         }
-        for (int i = 0; i < n; i++)
-        {
-            printf("Entrez l'element numero %d : ", i + 1);
-            scanf("%d", &T[i]);
-        }
+        generate_vecteur(T, n);
         printf("qu'elle methode de tri voulez vous utiliser  \n1 pour peingne  \n2 pour rapide \n3 pour fusion \n4 tri par selection \n5 tri bulle \n6 tri par insertion \n");
         scanf("%d", &ChoixTri);
 
@@ -463,30 +462,55 @@ int main()
         {
         case 1:
             printf("1- Tri Peingne\n");
+            clock_t start_time = clock();
             peigne(T,n);
+            clock_t end_time = clock();
+            double time_spent = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+            printf("Temps d'execution : %f secondes\n", time_spent);
             break;
         case 2:
             printf("2- Tri rapide\n");
+            clock_t start_time = clock();
             triRapide(T, 0, n - 1, &ncmp, &nperm, n);
             printf("le nombre de permutation : %d\n", nperm);
             printf("le nombre de comparaison : %d\n", ncmp);
+            clock_t end_time = clock();
+            double time_spent = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+            printf("Temps d'execution : %f secondes\n", time_spent);
             break;
         case 3:
             printf("3- Tri Fusion\n");
+             clock_t start_time = clock();
             triFusion(T, 0, n - 1);
             afficherCompteurs();
+            clock_t end_time = clock();
+            double time_spent = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+            printf("Temps d'execution : %f secondes\n", time_spent);
             break;
         case 4:
             printf("4- tri par selection \n");
+             clock_t start_time = clock();
             tri_par_selection(T,n);
+            clock_t end_time = clock();
+            double time_spent = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+            printf("Temps d'execution : %f secondes\n", time_spent);
+
             break;
         case 5:
             printf("5- tri par bulle \n");
+            clock_t start_time = clock();
             tri_par_bulle(T,n);
+            clock_t end_time = clock();
+            double time_spent = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+            printf("Temps d'execution : %f secondes\n", time_spent);
             break;
         case 6:
             printf("6- tri par insertion \n");
+            clock_t start_time = clock();
             tri_par_insertion(T,n);
+            clock_t end_time = clock();
+            double time_spent = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+            printf("Temps d'execution : %f secondes\n", time_spent);
             break;
         default:
 
