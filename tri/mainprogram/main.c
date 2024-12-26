@@ -16,67 +16,99 @@ void generate_vecteur(int arr[], int n)
 }
 void afficher(int *T, int n)
 {
-    printf("---------- Apres une iteration -----------\n");
-    for (size_t i = 0; i < n; i++)
+    printf("\nEtat de la matrice apres permutation\n");
+    printf("+-------+---------+\n");
+    printf("| Indice| Contenu |\n");
+    printf("+-------+---------+\n");
+
+    for (int i = 0; i < n; i++)
     {
-        printf("Element %d : %d\n", (int)i, T[i]);
+        printf("| %-6d| %-8d|\n", i, T[i]);
     }
+
+    printf("+-------+---------+\n");
 }
+
 // Fonction d'affichage pour une liste chaînée de chaînes de caractères
 void afficherlist(list *L)
 {
     list *p = L; // Utilisation de p pour parcourir la liste chaînée
-    int i = 1;   // Initialisation de l'index pour l'affichage des éléments
+    int i = 0;   // Initialisation de l'index pour l'affichage des éléments
 
-    printf("---------- Apres une iteration -----------\n");
-    while (p != NULL) // Parcours de la liste tant qu'on n'est pas à la fin
+    // En-tête du tableau
+    printf("\nEtat de la liste apres une iteration\n");
+    printf("+--------+-----------+\n");
+    printf("| Indice | Contenu   |\n");
+    printf("+--------+-----------+\n");
+
+    // Parcours de la liste et affichage formaté
+    while (p != NULL) // Parcours de la liste jusqu'à ce que p soit NULL
     {
-        printf("Element numero %d : %s\n", i, p->mot); // Affiche l'élément et son contenu
-        p = p->svt;                                    // Passe au prochain élément de la liste
-        i++;                                           // Incrémente le compteur
+        printf("| %-6d | %-9s |\n", i, p->mot); // Affiche l'indice et le mot
+        p = p->svt; // Passe au prochain élément
+        i++;        // Incrémente l'indice
     }
+
+    // Ligne de fin du tableau
+    printf("+--------+-----------+\n");
 }
+
 // tri avec les list
 // tri par bulle
 
 void bullelist(list *L)
 {
+    // Déclare un tableau pour effectuer les échanges de mots dans les nœuds de la liste
     char swap[100];
-    list *p;
-    list *p2;
+    list *p;  // Pointeur pour parcourir la liste
+    list *p2; // Pointeur pour le nœud suivant dans la liste
+
+    // Vérifie si la liste est vide
     if (L == NULL)
     {
-        printf("la list est vide");
-        return;
+        printf("la list est vide"); // Affiche un message si la liste est vide
+        return; // Sort de la fonction
     }
 
-    int nbComp = 0;
-    int nbPerm = 0;
-    int verification = 1;
+    int nbComp = 0; // Compteur pour le nombre de comparaisons effectuées
+    int nbPerm = 0; // Compteur pour le nombre de permutations effectuées
+    int verification = 1; // Indicateur pour continuer les passes dans l'algorithme de tri
+
+    // Boucle principale : continue tant qu'une permutation a été effectuée
     while (verification)
     {
-        p = L;
-        nbComp++;
-        verification = 0;
+        p = L; // Initialisation du pointeur au début de la liste
+        nbComp++; // Compte l'initialisation de la boucle comme une comparaison
+        verification = 0; // Réinitialise l'indicateur à chaque nouvelle passe
+
+        // Parcourt la liste jusqu'au dernier élément
         while (p->svt != NULL)
         {
-            p2 = p->svt;
-            nbComp++;
+            p2 = p->svt; // Définit p2 comme le suivant de p
+            nbComp++; // Incrémente le compteur de comparaisons
+
+            // Compare les mots des deux nœuds
             if (strcmp(p->mot, p2->mot) > 0)
             {
-                verification = 1;
+                verification = 1; // Indique qu'une permutation a été effectuée
+                // Effectue l'échange des mots entre p et p2
                 strcpy(swap, p->mot);
                 strcpy(p->mot, p2->mot);
                 strcpy(p2->mot, swap);
+
+                // Affiche l'état actuel de la liste après chaque permutation
                 afficherlist(L);
-                nbPerm++;
+                nbPerm++; // Incrémente le compteur de permutations
             }
-            p = p->svt;
+            p = p->svt; // Passe au nœud suivant
         }
     }
+
+    // Affiche le nombre total de comparaisons et de permutations
     printf("le nombre de comparaison: %d\n ", nbComp);
     printf("le nombre de permutation: %d\n ", nbPerm);
 }
+
 // tri par insertion
 void insertionlist(list *L)
 {
